@@ -1,5 +1,7 @@
 var board = new Array();
 var score = 0;
+var record = 0;
+var scorestr;
 var hasConflicted = new Array();
 
 var startx = 0;
@@ -9,7 +11,33 @@ var endy = 0;
 
 $(document).ready(function () {
     prepareForMobile();
-    newgame();
+    if (localStorage.played) {
+        scorestr = localStorage.score;
+        record= localStorage.record;
+        score = parseInt(scorestr);
+        board = JSON.parse(localStorage.getItem('board'));
+        hasConflicted = JSON.parse(localStorage.getItem('hasConflicted'));
+        for (var i = 0; i < 8; i++)
+            for (var j = 0; j < 8; j++) {
+
+                var gridCell = $('#grid-cell-' + i + "-" + j);
+                gridCell.css('top', getPosTop(i, j));
+                gridCell.css('left', getPosLeft(i, j));
+            }
+        for (var i = 0; i < 8; i++) {
+            for (var j = 0; j < 8; j++) {
+                showNumberWithAnimation(i, j, board[i][j]);
+            }
+        }
+        updateScore(score);
+        updateRecord(record);
+        updateBoardView();
+
+    } else {
+        newgame();
+        record = 0;
+        localStorage.played = 1;
+    }
 });
 
 function prepareForMobile() {
@@ -64,6 +92,9 @@ function init() {
     updateBoardView();
 
     score = 0;
+    localStorage.score = score;
+    updateScore(score);
+    updateRecord(record);
 }
 
 function updateBoardView() {
@@ -88,13 +119,14 @@ function updateBoardView() {
                 theNumberCell.css('background-color', getNumberBackgroundColor(board[i][j]));
                 theNumberCell.css('color', getNumberColor(board[i][j]));
                 theNumberCell.text(board[i][j]);
+                localStorage.setItem('board', JSON.stringify(board));
             }
-
+            localStorage.setItem('hasConflicted', JSON.stringify(hasConflicted));
             hasConflicted[i][j] = false;
         }
 
     $('.number-cell').css('line-height', cellSideLength + 'px');
-    $('.number-cell').css('font-size', 0.6 * cellSideLength + 'px');
+    $('.number-cell').css('font-size', 0.3 * cellSideLength + 'px');
 }
 
 function generateOneNumber() {
@@ -132,7 +164,7 @@ function generateOneNumber() {
     //在随机位置显示随机数字
     board[randx][randy] = randNumber;
     showNumberWithAnimation(randx, randy, randNumber);
-
+    updateBoardView();
     return true;
 }
 
@@ -253,9 +285,8 @@ function moveLeft() {
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
                         //add score
-                        score += board[i][k];
+                        score += parseInt(board[i][k]);
                         updateScore(score);
-
                         hasConflicted[i][k] = true;
                         continue;
                     }
@@ -291,9 +322,8 @@ function moveRight() {
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
                         //add score
-                        score += board[i][k];
+                        score += parseInt(board[i][k]);
                         updateScore(score);
-
                         hasConflicted[i][k] = true;
                         continue;
                     }
@@ -330,9 +360,8 @@ function moveUp() {
                         board[k][j] += board[i][j];
                         board[i][j] = 0;
                         //add score
-                        score += board[k][j];
+                        score += parseInt(board[k][j]);
                         updateScore(score);
-
                         hasConflicted[k][j] = true;
                         continue;
                     }
@@ -368,9 +397,8 @@ function moveDown() {
                         board[k][j] += board[i][j];
                         board[i][j] = 0;
                         //add score
-                        score += board[k][j];
+                        score += parseInt(board[k][j]);
                         updateScore(score);
-
                         hasConflicted[k][j] = true;
                         continue;
                     }

@@ -32,6 +32,7 @@ function getNumberBackgroundColor(number) {
             return "#f65e3b";
             break;
         case 128:
+
             return "#edcf72";
             break;
         case 256:
