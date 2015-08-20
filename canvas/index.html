@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>2048</title>
+    <style>
+        #canvas { display: block; margin: 0 auto; }
+    </style>
+    <link href="2048.css" rel="stylesheet" type="text/css" />
+    <script src="2048.js"></script>
+    <script src="game.js"></script>
+    <script src="animate.js"></script>
+    <script src="jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<header>
+    <h1>2048</h1>
+    <div id="newgamebutton" onclick="startGame(context)" >开始游戏</div>
+    <p>score: <span id="score">0</span></p>
+</header>
+<div id="canvas-warp">
+    <canvas id="canvas">
+        你的浏览器居然不支持Canvas？！赶快换一个吧！！
+    </canvas>
+</div>
+
+<script>
+    var canvas = document.getElementById("canvas");
+    canvas.width = gamebox_width;
+    canvas.height = gamebox_width;
+    var context = canvas.getContext("2d");
+
+    window.addEventListener('keydown', moveKeyDown, true);
+    $(document).ready(function(){
+        prepareForMobile();
+        startGame(context);
+    });
+
+
+</script>
+</body>
+</html>
