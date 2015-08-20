@@ -36,7 +36,9 @@
         prepareForMobile();
         startGame(context);
     });
-
+    $("body").bind("touchmove",function(e){
+        e.preventDefault();
+    });
 
 </script>
 </body>

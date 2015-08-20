@@ -11,6 +11,9 @@ var endy = 0;
 
 $(document).ready(function(){
     prepareForMobile();
+        $("body").bind("touchmove",function(e){
+        e.preventDefault();
+    });
     newgame();
 });
 
