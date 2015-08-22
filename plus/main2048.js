@@ -138,20 +138,20 @@ function generateOneNumber() {
         return false;
 
     //随机一个位置
-    var randx = parseInt(Math.floor(Math.random() * 4));
-    var randy = parseInt(Math.floor(Math.random() * 4));
+    var randx = parseInt(Math.floor(Math.random() * 8));
+    var randy = parseInt(Math.floor(Math.random() * 8));
 
     var times = 0;
-    while (times < 50) {
+    while (times < 200) {
         if (board[randx][randy] == 0)
             break;
 
-        randx = parseInt(Math.floor(Math.random() * 4));
-        randy = parseInt(Math.floor(Math.random() * 4));
+        randx = parseInt(Math.floor(Math.random() * 8));
+        randy = parseInt(Math.floor(Math.random() * 8));
 
         times++;
     }
-    if (times == 50) {
+    if (times == 200) {
         for (var i = 0; i < 8; i++)
             for (var j = 0; j < 8; j++) {
                 if (board[i][j] == 0) {
