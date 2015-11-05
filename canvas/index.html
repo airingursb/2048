@@ -2,16 +2,12 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <title>2048</title>
-    <style>
-        #canvas { display: block; margin: 0 auto; }
-    </style>
-    <link href="2048.css" rel="stylesheet" type="text/css" />
-    <script src="2048.js"></script>
-    <script src="game.js"></script>
-    <script src="animate.js"></script>
-    <script src="jquery-2.1.4.min.js"></script>
+    <link href="css/main.css" rel="stylesheet">
+    <script src="js/controllerLayer.js"></script>
+    <script src="js/modelLayer.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
 <header>
@@ -27,18 +23,19 @@
 
 <script>
     var canvas = document.getElementById("canvas");
-    canvas.width = gamebox_width;
-    canvas.height = gamebox_width;
+    canvas.width = game_width;
+    canvas.height = game_width;
     var context = canvas.getContext("2d");
 
     window.addEventListener('keydown', moveKeyDown, true);
-    $(document).ready(function(){
-        prepareForMobile();
+
+
+    window.onload = function(){
         startGame(context);
-    });
-    $("body").bind("touchmove",function(e){
-        e.preventDefault();
-    });
+        $("body").bind("touchmove",function(event){
+            event.preventDefault();
+        });
+    }
 
 </script>
 </body>
