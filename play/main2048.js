@@ -14,7 +14,20 @@ $(document).ready(function(){
         $("body").bind("touchmove",function(e){
         e.preventDefault();
     });
-    newgame();
+    
+    // 加载游戏数据
+    if (localStorage.played) {
+        score = parseInt(localStorage.score) || 0;
+        board = JSON.parse(localStorage.getItem('board')) || [];
+        hasConflicted = JSON.parse(localStorage.getItem('hasConflicted')) || [];
+        
+        // 恢复界面
+        updateBoardView();
+        updateScore(score);
+    } else {
+        newgame();
+        localStorage.played = 1;
+    }
 });
 
 function prepareForMobile(){
@@ -69,6 +82,7 @@ function init(){
     updateBoardView();
 
     score = 0;
+    saveGameData();
 }
 
 function updateBoardView(){
@@ -137,6 +151,7 @@ function generateOneNumber(){
     //在随机位置显示随机数字
     board[randx][randy] = randNumber;
     showNumberWithAnimation( randx , randy , randNumber );
+    saveGameData();
 
     return true;
 }
@@ -260,6 +275,7 @@ function moveLeft(){
                         //add score
                         score += board[i][k];
                         updateScore( score );
+                        saveGameData();
 
                         hasConflicted[i][k] = true;
                         continue;
@@ -268,8 +284,18 @@ function moveLeft(){
             }
         }
 
-    setTimeout("updateBoardView()",200);
+    setTimeout(function(){
+        updateBoardView();
+        saveGameData();
+    },200);
     return true;
+}
+
+// 保存游戏数据到localStorage
+function saveGameData() {
+    localStorage.score = score;
+    localStorage.setItem('board', JSON.stringify(board));
+    localStorage.setItem('hasConflicted', JSON.stringify(hasConflicted));
 }
 
 function moveRight(){
@@ -298,6 +324,7 @@ function moveRight(){
                         //add score
                         score += board[i][k];
                         updateScore( score );
+                        saveGameData();
 
                         hasConflicted[i][k] = true;
                         continue;
@@ -337,6 +364,7 @@ function moveUp(){
                         //add score
                         score += board[k][j];
                         updateScore( score );
+                        saveGameData();
 
                         hasConflicted[k][j] = true;
                         continue;
@@ -375,6 +403,7 @@ function moveDown(){
                         //add score
                         score += board[k][j];
                         updateScore( score );
+                        saveGameData();
 
                         hasConflicted[k][j] = true;
                         continue;

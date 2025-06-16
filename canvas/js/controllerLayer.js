@@ -6,10 +6,31 @@
  */
 function startGame(cxt) {
     init(cxt);     //初始化游戏界面UI
-    score = 0;
-    updateScore(score);
-    newBox(cxt);
-    newBox(cxt);
+    
+    // 加载游戏数据
+    if (localStorage.played) {
+        score = parseInt(localStorage.score) || 0;
+        nums = JSON.parse(localStorage.getItem('nums')) || [];
+        
+        // 确保数组初始化
+        if (!nums || nums.length === 0) {
+            for(var i = 0; i < 4; i++){
+                nums[i] = new Array();
+                for(var j = 0; j < 4; j++){
+                    nums[i][j] = 0;
+                }
+            }
+        }
+        
+        updateScore(score);
+        updateBoardView(cxt);
+    } else {
+        score = 0;
+        updateScore(score);
+        newBox(cxt);
+        newBox(cxt);
+        localStorage.played = 1;
+    }
 }
 
 function newBox(cxt) {
@@ -51,6 +72,7 @@ function newBox(cxt) {
 
     nums[randx][randy] = randNumber;
     drawBox(cxt, randx, randy, randNumber);
+    saveGameData();
     return true;
 }
 
@@ -149,6 +171,7 @@ function moveLeft() {
                         nums[i][j] = 0;
                         score = score + nums[k][j];
                         updateScore(score);
+                        saveGameData();
                     }
                 }
             }
@@ -195,6 +218,7 @@ function moveUp() {
                         //add score
                         score += nums[i][k];
                         updateScore(score);
+                        saveGameData();
                     }
                 }
             }
@@ -240,6 +264,7 @@ function moveRight() {
                         //add score
                         score += nums[k][j];
                         updateScore(score);
+                        saveGameData();
                     }
                 }
             }
@@ -287,6 +312,7 @@ function moveDown() {
                         //add score
                         score += nums[i][k];
                         updateScore(score);
+                        saveGameData();
                     }
                 }
             }
@@ -357,4 +383,10 @@ function isGameOver(){
         return true;
     }
     return false;
+}
+
+// 保存游戏数据到localStorage
+function saveGameData() {
+    localStorage.score = score;
+    localStorage.setItem('nums', JSON.stringify(nums));
 }

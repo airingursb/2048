@@ -36,3 +36,19 @@ header p{
     font-size:25px;
     margin:10px auto;
 }
+
+/* 禁用 Safari 弹性滚动效果 */
+body {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overscroll-behavior: none;
+    -webkit-overscroll-behavior: none;
+}
+
+html {
+    overscroll-behavior: none;
+    -webkit-overscroll-behavior: none;
+}
