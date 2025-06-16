@@ -263,6 +263,12 @@ function gameover() {
     alert('游戏结束！您的得分为：' + score);
 }
 
+function vibrate() {
+    if (navigator.vibrate) {
+        navigator.vibrate(50); // 震动50毫秒
+    }
+}
+
 function moveLeft() {
 
     if (!canMoveLeft(board))
@@ -291,6 +297,7 @@ function moveLeft() {
                         score += parseInt(board[i][k]);
                         updateScore(score);
                         hasConflicted[i][k] = true;
+                        vibrate();
                         continue;
                     }
                 }
@@ -328,6 +335,7 @@ function moveRight() {
                         score += parseInt(board[i][k]);
                         updateScore(score);
                         hasConflicted[i][k] = true;
+                        vibrate();
                         continue;
                     }
                 }
@@ -366,6 +374,7 @@ function moveUp() {
                         score += parseInt(board[k][j]);
                         updateScore(score);
                         hasConflicted[k][j] = true;
+                        vibrate();
                         continue;
                     }
                 }
@@ -403,6 +412,7 @@ function moveDown() {
                         score += parseInt(board[k][j]);
                         updateScore(score);
                         hasConflicted[k][j] = true;
+                        vibrate();
                         continue;
                     }
                 }
